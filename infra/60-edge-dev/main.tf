@@ -4,9 +4,8 @@ resource "aws_api_gateway_vpc_link" "this" {
   target_arns = [data.terraform_remote_state.eks.outputs.nlb_arn]
 
   tags = {
-    Environment  = var.environment
-    Environment2 = var.environment
-    Terraform    = "true"
+    Environment = var.environment
+    Terraform   = "true"
   }
 }
 

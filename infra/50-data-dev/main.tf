@@ -7,7 +7,7 @@ module "rds" {
 
   engine               = "postgres"
   engine_version       = "14"
-  family              = "postgres14"
+  family               = "postgres14"
   major_engine_version = "14"
   instance_class       = "db.t3.medium"
 
@@ -16,17 +16,17 @@ module "rds" {
 
   db_name  = "appdb"
   username = "dbadmin"
-  port     = 5432
+  port     = 5433
 
   multi_az               = false
-  subnet_ids            = data.terraform_remote_state.vpc.outputs.private_subnets
+  subnet_ids             = data.terraform_remote_state.vpc.outputs.private_subnets
   vpc_security_group_ids = [aws_security_group.rds.id]
 
   maintenance_window = "Mon:00:00-Mon:03:00"
   backup_window      = "03:00-06:00"
 
   backup_retention_period = 7
-  skip_final_snapshot    = true
+  skip_final_snapshot     = true
 
   tags = {
     Environment = var.environment
@@ -62,11 +62,11 @@ module "s3_bucket" {
 
 # SQS Queue
 resource "aws_sqs_queue" "main" {
-  name                      = "${var.project}-${var.environment}-queue"
-  delay_seconds             = 0
-  max_message_size         = 262144
-  message_retention_seconds = 345600
-  receive_wait_time_seconds = 0
+  name                       = "${var.project}-${var.environment}-queue"
+  delay_seconds              = 0
+  max_message_size           = 262144
+  message_retention_seconds  = 345600
+  receive_wait_time_seconds  = 0
   visibility_timeout_seconds = 30
 
   tags = {
