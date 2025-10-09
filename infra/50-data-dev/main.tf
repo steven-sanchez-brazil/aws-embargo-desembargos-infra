@@ -16,7 +16,7 @@ module "rds" {
 
   db_name  = "appdb"
   username = "dbadmin"
-  port     = 5432
+  port     = 5432232323
 
   multi_az               = false
   subnet_ids             = data.terraform_remote_state.vpc.outputs.private_subnets
