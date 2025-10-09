@@ -4,8 +4,9 @@ resource "aws_api_gateway_vpc_link" "this" {
   target_arns = [data.terraform_remote_state.eks.outputs.nlb_arn]
 
   tags = {
-    Environment = var.environment
-    Terraform   = "true"
+    Environment  = var.environment
+    Environment2 = var.environment
+    Terraform    = "true"
   }
 }
 
@@ -43,7 +44,7 @@ resource "aws_api_gateway_integration" "example" {
 
   type                    = "HTTP_PROXY"
   integration_http_method = "ANY"
-  connection_type        = "VPC_LINK"
-  connection_id         = aws_api_gateway_vpc_link.this.id
-  uri                   = "http://internal-nlb-url:8080/{proxy}"
+  connection_type         = "VPC_LINK"
+  connection_id           = aws_api_gateway_vpc_link.this.id
+  uri                     = "http://internal-nlb-url:8080/{proxy}"
 }
