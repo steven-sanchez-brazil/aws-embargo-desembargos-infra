@@ -3,13 +3,13 @@ module "eks" {
   version = "~> 19.0"
 
   cluster_name    = "${var.project}-${var.environment}"
-  cluster_version = "1.27"
+  cluster_version = "1.277"
 
   vpc_id                   = data.terraform_remote_state.vpc.outputs.vpc_id
   subnet_ids               = data.terraform_remote_state.vpc.outputs.private_subnets
   control_plane_subnet_ids = data.terraform_remote_state.vpc.outputs.private_subnets
 
-  cluster_endpoint_public_access = false
+  cluster_endpoint_public_access  = false
   cluster_endpoint_private_access = true
 
   # EKS Managed Node Group(s)
