@@ -50,7 +50,7 @@ jobs:
                   echo "Contenido del archivo de auditoría:"
                   cat auditoria_git.log
 
-                  # Exportar el contenido del archivo de auditoría como salida del paso
+                  # Exportar el contenido del archivo de auditoría como salida del pasoo
                   {
                     echo "auditoria<<EOF"
                     cat auditoria_git.log
