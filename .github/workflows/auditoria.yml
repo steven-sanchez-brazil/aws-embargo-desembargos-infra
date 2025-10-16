@@ -15,7 +15,7 @@ jobs:
               with:
                   fetch-depth: 2 # trae al menos 2 commits para que HEAD~1 exista
 
-            - name: Ejecutar auditoría genérica
+            - name: Ejecutar auditoría
               id: audit
               run: |
                   echo "=== Iniciando auditoría ==="
@@ -31,7 +31,6 @@ jobs:
                   else
                     echo "=== Auditoría - $FECHA ===" > auditoria_git.log
 
-                    # Leer línea por línea de los cambios
                     while read -r linea; do
                       tipo=$(echo "$linea" | awk '{print $1}')
                       archivo=$(echo "$linea" | awk '{print $2}')
@@ -52,7 +51,6 @@ jobs:
                   echo "Contenido del archivo de auditoría:"
                   cat auditoria_git.log
 
-                  # Exportar el contenido del archivo de auditoría como salida del pasoo
                   {
                     echo "auditoria<<EOF"
                     cat auditoria_git.log
