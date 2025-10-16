@@ -1,0 +1,58 @@
+name: Auditoría de cambios en repositorio
+
+on:
+    push:
+        branches:
+            - main
+            #- develop
+
+jobs:
+    auditoria:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout del repositorio
+              uses: actions/checkout@v4
+
+            - name: Ejecutar auditoría genérica
+              id: audit
+              run: |
+                  echo "=== Iniciando auditoría ==="
+                  FECHA=$(date '+%Y-%m-%d %H:%M:%S')
+                  echo "Fecha: $FECHA"
+
+                  # Obtener lista de archivos modificados entre el último y el penúltimo commit
+                  CHANGES=$(git diff --name-status HEAD~1 HEAD)
+
+                  if [ -z "$CHANGES" ]; then
+                    echo "=== Auditoría - $FECHA ===" > auditoria_git.log
+                    echo "[Sin cambios detectados]" >> auditoria_git.log
+                  else
+                    echo "=== Auditoría - $FECHA ===" > auditoria_git.log
+
+                    # Leer línea por línea de los cambios
+                    while read -r linea; do
+                      tipo=$(echo "$linea" | awk '{print $1}')
+                      archivo=$(echo "$linea" | awk '{print $2}')
+                      carpeta=$(dirname "$archivo")
+
+                      case "$tipo" in
+                        M) accion="Modificado" ;;
+                        A) accion="Agregado" ;;
+                        D) accion="Eliminado" ;;
+                        *) accion="Otro cambio ($tipo)" ;;
+                      esac
+
+                      echo "[$accion] Ruta: $carpeta | Fichero: $archivo" >> auditoria_git.log
+                    done <<< "$CHANGES"
+                  fi
+
+                  echo ""
+                  echo "Contenido del archivo de auditoría:"
+                  cat auditoria_git.log
+
+                  # Exportar el contenido del archivo de auditoría como salida del paso
+                  {
+                    echo "auditoria<<EOF"
+                    cat auditoria_git.log
+                    echo "EOF"
+                  } >> "$GITHUB_OUTPUT"
