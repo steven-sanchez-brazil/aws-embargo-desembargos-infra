@@ -19,4 +19,4 @@ jobs:
         id: audit
         run: |
           chmod +x ../scripts/auditoria_git.sh
-          ./scripts/auditoria_git.sh
+          sh ../scripts/auditoria_git.sh
