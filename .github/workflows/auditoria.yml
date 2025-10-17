@@ -18,5 +18,5 @@ jobs:
       - name: Ejecutar auditoría
         id: audit
         run: |
-          chmod +x ../scripts/auditoria_git.sh
-          sh ../scripts/auditoria_git.sh
+          chmod +x .github/scripts/auditoria_git.sh
+          .github/scripts/auditoria_git.sh
